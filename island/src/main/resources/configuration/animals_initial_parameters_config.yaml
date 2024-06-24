@@ -1,0 +1,68 @@
+# Initial parameters for Organism's like Animal and Plant
+limits:
+  Wolf:
+    maxWeight: 50.0
+    maxPopulation: 30
+    speed: 3
+  Python:
+      maxWeight: 15.0
+      maxPopulation: 30
+      speed: 1
+  Fox:
+      maxWeight: 8.0
+      maxPopulation: 30
+      speed: 2
+  Bear:
+    maxWeight: 500.0
+    maxPopulation: 5
+    speed: 2
+  Eagle:
+    maxWeight: 6.0
+    maxPopulation: 20
+    speed: 3
+  Horse:
+    maxWeight: 400.0
+    maxPopulation: 20
+    speed: 4
+  Deer:
+    maxWeight: 300.0
+    maxPopulation: 20
+    speed: 4
+  Rabbit:
+    maxWeight: 2.0
+    maxPopulation: 150
+    speed: 2
+  Mouse:
+    maxWeight: 0.05
+    maxPopulation: 500
+    speed: 1
+  Goat:
+    maxWeight: 60.0
+    maxPopulation: 140
+    speed: 3
+  Sheep:
+    maxWeight: 70.0
+    maxPopulation: 140
+    speed: 3
+  Boar:
+    maxWeight: 400.0
+    maxPopulation: 50
+    speed: 2
+  Buffalo:
+    maxWeight: 700.0
+    maxPopulation: 10
+    speed: 3
+  Duck:
+    maxWeight: 1.0
+    maxPopulation: 200
+    speed: 4
+  Caterpillar:
+    maxWeight: 0.01
+    maxPopulation: 1000
+    speed: 0
+  Plant:
+    maxWeight: 10.0
+    maxPopulation: 200
+    speed: 0
+
+

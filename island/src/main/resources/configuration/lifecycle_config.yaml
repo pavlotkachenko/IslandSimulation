@@ -1,0 +1,4 @@
+# Parameters of life cycle
+startWeightFactor: 0.70
+weightDecreaseFactor: 0.03
+deathThreshold: 0.1

@@ -1,0 +1,159 @@
+---
+# Island size parameters
+rows: 100
+columns: 20
+period: 500
+
+# Basic animal parameters
+limits:
+  Wolf:
+    maxWeight: 50.0
+    maxPopulation: 30
+    speed: 3
+  Python:
+    maxWeight: 15.0
+    maxPopulation: 30
+    speed: 1
+  Fox:
+    maxWeight: 8.0
+    maxPopulation: 30
+    speed: 2
+  Bear:
+    maxWeight: 500.0
+    maxPopulation: 5
+    speed: 2
+  Eagle:
+    maxWeight: 6.0
+    maxPopulation: 20
+    speed: 3
+  Horse:
+    maxWeight: 400.0
+    maxPopulation: 20
+    speed: 4
+  Deer:
+    maxWeight: 300.0
+    maxPopulation: 20
+    speed: 4
+  Rabbit:
+    maxWeight: 2.0
+    maxPopulation: 150
+    speed: 2
+  Mouse:
+    maxWeight: 0.05
+    maxPopulation: 500
+    speed: 1
+  Goat:
+    maxWeight: 60.0
+    maxPopulation: 140
+    speed: 3
+  Sheep:
+    maxWeight: 70.0
+    maxPopulation: 140
+    speed: 3
+  Boar:
+    maxWeight: 400.0
+    maxPopulation: 50
+    speed: 2
+  Buffalo:
+    maxWeight: 700.0
+    maxPopulation: 10
+    speed: 3
+  Duck:
+    maxWeight: 1.0
+    maxPopulation: 200
+    speed: 4
+  Caterpillar:
+    maxWeight: 0.01
+    maxPopulation: 1000
+    speed: 0
+  Herb:
+    maxWeight: 10.0
+    maxPopulation: 200
+    speed: 0
+
+
+# Icons of animals
+icons:
+  Wolf: "🐺"
+  Python: "🐍"
+  Fox: "🦊"
+  Bear: "🐻"
+  Eagle: "🦅"
+  Horse: "🐎"
+  Deer: "🦌"
+  Rabbit: "🐇"
+  Mouse: "🐁"
+  Goat: "🦌"
+  Sheep: "🐑"
+  Boar: "🐗"
+  Buffalo: "🐃"
+  Duck: "🦆"
+  Caterpillar: "🐛"
+  Herb: "☘"
+
+# Chance of eating food
+foodMap:
+  Wolf:
+    Horse: 10
+    Deer: 15
+    Rabbit: 60
+    Mouse: 80
+    Goat: 60
+    Sheep: 70
+    Boar: 15
+    Buffalo: 10
+    Duck: 40
+  Python:
+    Fox: 15
+    Rabbit: 20
+    Mouse: 40
+    Duck: 10
+  Fox:
+    Rabbit: 70
+    Mouse: 90
+    Duck: 60
+    Caterpillar: 40
+  Bear:
+    Python: 80
+    Horse: 40
+    Deer: 80
+    Rabbit: 80
+    Mouse: 90
+    Goat: 70
+    Sheep: 70
+    Boar: 50
+    Buffalo: 20
+  Eagle:
+    Fox: 10
+    Rabbit: 90
+    Mouse: 90
+    Duck: 80
+  Horse:
+    Herb: 100
+  Deer:
+    Herb: 100
+  Rabbit:
+    Herb: 100
+  Mouse:
+    Caterpillar: 90
+    Herb: 100
+  Goat:
+    Herb: 100
+  Sheep:
+    Herb: 100
+  Boar:
+    Mouse: 50
+    Caterpillar: 90
+    Herb: 100
+  Buffalo:
+    Herb: 100
+  Duck:
+    Caterpillar: 90
+    Herb: 100
+  Caterpillar:
+    Herb: 100
+
+# Parameters of life cycle
+startWeightFactor: 0.70
+weightDecreaseFactor: 0.03
+deathThreshold: 0.1

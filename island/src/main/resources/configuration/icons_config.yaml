@@ -1,0 +1,18 @@
+# Icons of animals for displaying stats on a screen after each iteration
+icons:
+  Wolf: "🐺"
+  Python: "🐍"
+  Fox: "🦊"
+  Bear: "🐻"
+  Eagle: "🦅"
+  Horse: "🐎"
+  Deer: "🦌"
+  Rabbit: "🐇"
+  Mouse: "🐁"
+  Goat: "🦌"
+  Sheep: "🐑"
+  Boar: "🐗"
+  Buffalo: "🐃"
+  Duck: "🦆"
+  Caterpillar: "🐛"
+  Plant: "☘"

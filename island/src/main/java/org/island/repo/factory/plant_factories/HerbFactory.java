@@ -3,7 +3,7 @@ package org.island.repo.factory.plant_factories;
 import org.island.entity.Group;
 import org.island.entity.Organism;
 import org.island.plants.Herb;
-import org.island.repo.OrganismInfo;
+import org.island.entity.OrganismInfo;
 import org.island.repo.factory.OrganismFactory;
 
 import java.util.concurrent.atomic.AtomicInteger;

@@ -1,4 +1,0 @@
-# Island parameters defined the location/area and iteration time (milliseconds)
-rows: 100
-columns: 20
-period: 500

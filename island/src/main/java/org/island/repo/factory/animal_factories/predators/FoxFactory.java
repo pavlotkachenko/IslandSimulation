@@ -3,7 +3,7 @@ package org.island.repo.factory.animal_factories.predators;
 import org.island.animals.predators.Fox;
 import org.island.entity.Group;
 import org.island.entity.Organism;
-import org.island.repo.OrganismInfo;
+import org.island.entity.OrganismInfo;
 import org.island.repo.factory.OrganismFactory;
 
 import java.util.concurrent.atomic.AtomicInteger;

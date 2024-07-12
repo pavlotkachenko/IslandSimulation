@@ -28,6 +28,8 @@ and toString() methods for all fields in the class.
 public class Location {
     private final int row;
     private final int column;
+    private Plant plant;
+    private Animal animal;
 
     @Getter
     private List<Location> directions;
@@ -53,7 +55,4 @@ public class Location {
     public String toString(){
         return "Location" + "[" + row + "]" + "[" + column + "]";
     }
-
-    private Plant plant;
-    private Animal animal;
 }

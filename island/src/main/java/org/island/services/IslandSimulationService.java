@@ -10,11 +10,11 @@ import java.util.Map;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
-public class SimulationWorkerService extends Thread {
+public class IslandSimulationService extends Thread {
     private final Simulation simulation;
     private final int period;
 
-    public SimulationWorkerService(Simulation simulation) {
+    public IslandSimulationService(Simulation simulation) {
         this.simulation = simulation;
         this.period = Config.getConfig().getPeriod();
     }

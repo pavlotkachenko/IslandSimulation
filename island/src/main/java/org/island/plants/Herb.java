@@ -1,7 +1,7 @@
 package org.island.plants;
 
 import org.island.repo.Limit;
-import org.island.repo.OrganismInfo;
+import org.island.entity.OrganismInfo;
 
 public class Herb extends Plant {
 

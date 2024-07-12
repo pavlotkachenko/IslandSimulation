@@ -7,6 +7,7 @@ import org.island.location.Island;
 import org.island.location.Location;
 import org.island.repo.maps.Ration;
 import org.island.repo.maps.Residents;
+import org.island.services.animal.ReproduceService;
 
 import java.util.Objects;
 import java.util.Queue;
@@ -81,10 +82,10 @@ public class OrganismWorkerService implements Runnable {
                     boolean haveFoodHere = animal.findSomeFood(myRation, residents);
                     yield haveFoodHere ? new EatTaskService(organism, location) : new MoveTaskService(organism, location);
                 }
-                case WILL_BE_FINE -> new KillTaskService(organism, location);
+                case WILL_BE_FINE -> new  KillTaskService(organism, location);
             };
         } else {
-            task = new ReproduceTaskService(organism, location);
+            task =  new ReproduceService(organism, location);
         }
         return task;
     }

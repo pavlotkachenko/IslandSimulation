@@ -1,10 +1,9 @@
 package org.island.repo.factory.animal_factories.grasseaters;
 
-import org.island.animals.grasseaters.Boar;
 import org.island.animals.grasseaters.Buffalo;
 import org.island.entity.Group;
 import org.island.entity.Organism;
-import org.island.repo.OrganismInfo;
+import org.island.entity.OrganismInfo;
 import org.island.repo.factory.OrganismFactory;
 
 import java.util.concurrent.atomic.AtomicInteger;

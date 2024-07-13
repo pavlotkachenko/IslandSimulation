@@ -1,9 +1,10 @@
 package org.island.services;
 
-import org.island.animals.Animal;
 import org.island.entity.Organism;
 import org.island.location.Location;
 
+
+//TODO Переписать
 public class MoveTaskService extends TaskService {
 
     public MoveTaskService(Organism organism, Location location) {

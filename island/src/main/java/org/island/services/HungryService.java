@@ -1,22 +1,22 @@
 package org.island.services;
 
-import org.island.animals.Animal;
+import lombok.RequiredArgsConstructor;
 import org.island.entity.Organism;
 import org.island.location.Location;
+import org.island.services.utils.Fullness;
 import org.island.settings.Config;
-import org.island.util.Fullness;
 
-public class HungryTaskService extends TaskService {
 
+//TODO Переписать
+@RequiredArgsConstructor
+public class HungryService {
+    private final KillService killService;
     private static final double WELL_FED = 0.75; //TODO need different logic
     private static final double ALL_RIGHT = WELL_FED - 0.2;
     public static final double HUNGRY = ALL_RIGHT - 0.4;
 
-    public HungryTaskService(Organism organism, Location location) {
-        super(organism, location);
-    }
 
-    @Override
+
     public void run() {
         double currentWeight = organism.getCurrentWeight();
         double maxWeight = organism.getMaxWeight();
@@ -34,14 +34,14 @@ public class HungryTaskService extends TaskService {
                 animal.setFullness(Fullness.ALL_RIGHT);
             } else if (weightRatio >= HUNGRY && weightRatio < ALL_RIGHT && fullness != Fullness.HUNGRY) {
                 animal.setFullness(Fullness.HUNGRY);
-            } else if (weightRatio < HUNGRY && fullness != Fullness.WILL_BE_FINE) {
-                animal.setFullness(Fullness.WILL_BE_FINE);
+            } else if (weightRatio < HUNGRY && fullness != Fullness.DEATH) {
+                animal.setFullness(Fullness.DEATH);
             }
         }
 
         double deathThreshold = config.getDeathThreshold();
         if (weightRatio < deathThreshold) {
-            organism.killOrganism(location);
+            killService.killOrganism(location);
         } else {
             organism.setCurrentWeight(weightNextDay);
         }

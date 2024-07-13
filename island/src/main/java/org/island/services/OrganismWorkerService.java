@@ -1,6 +1,5 @@
 package org.island.services;
 
-import org.island.animals.Animal;
 import org.island.entity.Organism;
 import org.island.exceptions.OrganismOperationFail;
 import org.island.location.Island;
@@ -14,11 +13,13 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CountDownLatch;
 
+
+//TODO Переписать
 public class OrganismWorkerService implements Runnable {
     private final Organism organism;
     private final Island island;
-    private final Queue<TaskService> tasks = new ConcurrentLinkedQueue<>();
-    private final Queue<TaskService> hungryTasks = new ConcurrentLinkedQueue<>();
+    private final Queue<org.island.services.TaskService> tasks = new ConcurrentLinkedQueue<>();
+    private final Queue<org.island.services.TaskService> hungryTasks = new ConcurrentLinkedQueue<>();
     private final CountDownLatch latch;
 
     public OrganismWorkerService(Organism organism, Island island, CountDownLatch latch) {
@@ -29,7 +30,7 @@ public class OrganismWorkerService implements Runnable {
 
     @Override
     public void run() {
-        Location[][] grid = island.getIslandGrid();
+        Location[][] grid = island.getGRID();
         for (Location[] row : grid) {
             for (Location location : row) {
                 try {
@@ -50,9 +51,9 @@ public class OrganismWorkerService implements Runnable {
             location.getLock().lock();
             try {
                 for (Organism organism : organisms) {
-                    TaskService task = chooseAction(organism, location, residents);
+                    org.island.services.TaskService task = chooseAction(organism, location, residents);
                     tasks.add(task);
-                    TaskService hungry = new HungryTaskService(organism, location);
+                    org.island.services.TaskService hungry = new HungryService(organism, location);
                     hungryTasks.add(hungry);
                 }
             } finally {
@@ -74,17 +75,17 @@ public class OrganismWorkerService implements Runnable {
         if (organism instanceof Animal) {
             Animal animal = (Animal) organism;
             task = switch (organism.getFullness()) {
-                case WELL_FED -> new ReproduceTaskService(organism, location);
-                case ALL_RIGHT -> new MoveTaskService(organism, location);
+                case WELL_FED -> new ReproductionService(organism, location);
+                case ALL_RIGHT -> new org.island.services.MoveTaskService(organism, location);
                 case HUNGRY -> {
                     Ration myRation = organism.getRation();
                     boolean haveFoodHere = animal.findSomeFood(myRation, residents);
-                    yield haveFoodHere ? new EatTaskService(organism, location) : new MoveTaskService(organism, location);
+                    yield haveFoodHere ? new EatService(organism, location) : new org.island.services.MoveTaskService(organism, location);
                 }
-                case WILL_BE_FINE -> new KillTaskService(organism, location);
+                case DEATH -> new KillService(organism, location);
             };
         } else {
-            task = new ReproduceTaskService(organism, location);
+            task = new ReproductionService(organism, location);
         }
         return task;
     }

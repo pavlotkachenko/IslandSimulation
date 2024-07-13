@@ -1,5 +1,10 @@
 package org.island.entity;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+@Getter
 public enum Group {
     WOLF("Wolf", 0),
     PYTHON("Python", 1),
@@ -21,18 +26,6 @@ public enum Group {
     private final String type;
     private final int groupId;
 
-    public int getGroupId(){
-        return groupId;
-    }
-
-    public String getType(){
-        return type;
-    }
-
-    Group(String type, int groupId){
-        this.type = type;
-        this.groupId = groupId;
-    }
 
 
 }

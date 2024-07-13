@@ -1,16 +1,15 @@
 package org.island.view;
 
-import org.island.animals.GrassEater;
-import org.island.animals.Predator;
+import lombok.RequiredArgsConstructor;
 import org.island.entity.Organism;
 import org.island.location.Island;
 import org.island.location.Location;
-import org.island.repo.factory.Factory;
 import org.island.repo.maps.Residents;
 import org.island.settings.Config;
 
 import java.util.*;
-
+//TODO Переписать
+@RequiredArgsConstructor
 public class ConsoleView implements View {
 
     public static final int HEIGHT_DIAGRAM = 10;
@@ -18,13 +17,9 @@ public class ConsoleView implements View {
     public static final int POPULATION_AVERAGE = POPULATION_HIGH - 40;
 
     private final Island island;
-    private final Factory factory;
+
     private int day = 0;
 
-    public ConsoleView(Island island, Factory factory) {
-        this.island = island;
-        this.factory = factory;
-    }
 
     @Override
     public void showStatistics() {
@@ -32,7 +27,7 @@ public class ConsoleView implements View {
         Map<String, Integer> statsGrassEaters = new HashMap<>();
         Map<String, Integer> statsPlants = new HashMap<>();
 
-        Location[][] grid = island.getGrid();
+        Location[][] grid = island.getGRID();
 
         for (Location[] row : grid) {
             for (Location location : row) {
@@ -66,7 +61,7 @@ public class ConsoleView implements View {
         StringBuilder out = new StringBuilder("\n");
         Map<String, Organism> prototypes = factory.getPrototypes();
         List<Organism> organisms = new ArrayList<>(prototypes.values());
-        Location[][] grid = island.getGrid();
+        Location[][] grid = island.getGRID();
         int organismsCount = organisms.size();
         Map<String, Integer> currentPopulation = countOrganisms(organisms, grid);
         drawDiagram(out, organisms, organismsCount, currentPopulation);

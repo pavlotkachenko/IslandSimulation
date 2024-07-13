@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.island.entity.Group;
-import org.island.repo.Limit;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,8 +16,10 @@ import java.util.Objects;
 import org.island.repo.maps.FoodMap;
 import org.island.repo.maps.Ration;
 
-import java.util.Map;
 
+
+
+//TODO оставить только про остров, по идее в пропертю
 @Getter
 @Setter(AccessLevel.PROTECTED)
 public final class Config {
@@ -29,7 +30,6 @@ public final class Config {
     private int columns;
     private int period;
     private int[][] rationTable;
-    private Map<String, Limit> limits;
     private Map<String, String> icons;
     private FoodMap foodMap;
     private double startWeightFactor;
@@ -55,9 +55,7 @@ public final class Config {
         return CONFIG;
     }
 
-    public Limit getLimit(String type) {
-        return limits.get(type);
-    }
+
 
     public String getIcon(String type) {
         return icons.get(type);
@@ -91,12 +89,6 @@ public final class Config {
     }
 
     private void loadDefaultSetting() {
-        rows = Default.ROWS;
-        columns = Default.COLUMNS;
-        period = Default.PERIOD;
-        rationTable = Default.RATION_TABLE;
-        limits = Default.LIMITS;
-        icons = Default.ICONS;
         startWeightFactor = Default.START_WEIGHT_FACTOR;
         weightDecreaseFactor = Default.WEIGHT_DECREASE_FACTOR;
         deathThreshold = Default.DEATH_THRESHOLD;

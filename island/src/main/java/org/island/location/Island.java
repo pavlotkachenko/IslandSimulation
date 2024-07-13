@@ -1,6 +1,7 @@
 package org.island.location;
 
-import lombok.Data;
+import lombok.Getter;
+import org.island.settings.Config;
 /*
 06/15/2024:
 Island Class: Manages the entire island grid using a 2-dimensional array of Location objects.
@@ -9,16 +10,12 @@ Island Class: Manages the entire island grid using a 2-dimensional array of Loca
 and toString() methods for all fields in the class.
  */
 
-@Data
+@Getter
 public class Island {
-    private Location[][] grid;
+    private final Location[][] GRID;
 
-    public Island(int numRows, int numCols){
-        this.grid = new Location[numRows] [numCols];
-    }
-
-    public Location[][] getIslandGrid(){
-        return grid;
+    public Island(Config config) {
+        this.GRID = new Location[config.getRows()] [config.getColumns()];
     }
 
 }

@@ -2,8 +2,8 @@ package org.island.entity;
 
 
 import lombok.*;
-import org.island.repo.maps.Ration;
-import org.island.services.utils.Fullness;
+
+import java.util.HashMap;
 
 @Builder
 @Getter
@@ -11,15 +11,14 @@ import org.island.services.utils.Fullness;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class Organism {
+public class OrganismDTO {
     private String type;
     private int groupId;
     private int organismId;
     private boolean isAlive;
     private double currentWeight;
     private String icon;
-    private Fullness fullness;
-    private Ration ration;
+    private HashMap<String, Integer> ration;
     private double maxWeight;
     private int maxPopulation;
     private int speed;

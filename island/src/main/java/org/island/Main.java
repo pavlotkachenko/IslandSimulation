@@ -1,21 +1,49 @@
 package org.island;
 
-import org.island.location.Island;
-import org.island.services.PopulateIslandService;
-import org.island.services.SimulationService;
+import org.island.model.Island;
+import org.island.services.*;
+import org.island.simulation.Simulation;
 import org.island.settings.Config;
 import org.island.view.ConsoleView;
 import org.island.view.View;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.printf("Hello and Welcome to the Island Simulation!");
+        //Welcome message
+        System.out.println("Hello and Welcome to the Island Simulation!");
 
-        Config config = Config.getConfig();
+        //Load configuration
+        Config config = Config.initialize();
+
+        //Init island
         Island island = new Island(config);
-        PopulateIslandService populateIslandService = new PopulateIslandService();
+
+        //Init view
         View view = new ConsoleView(island);
-        SimulationService gameWorker = new SimulationService(view, island, config.getPeriod(), populateIslandService);
-        gameWorker.start();
+
+        // Initialize simulation
+        Simulation gameWorker = getSimulation(config, island, view);
+
+        //Populate island
+        gameWorker.populateIsland(island);
+
+        //StartSimulation
+        gameWorker.runCycle();
+    }
+
+
+    private static Simulation getSimulation(Config config, Island island, View view) {
+        MovementService movementService = new AnimalMovementService();
+        MatingService matingService = new AnimalMatingService();
+        FeedingService feedingService = new AnimalFeedingService();
+        DeathService deathService = new AnimalDeathService();
+        return new Simulation(
+                view,
+                island,
+                config.getIslandSimulationConfig().getSimulation().getPeriod(),
+                movementService,
+                matingService,
+                feedingService,
+                deathService);
     }
 }

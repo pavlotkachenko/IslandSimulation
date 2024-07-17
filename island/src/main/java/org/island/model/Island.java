@@ -1,4 +1,4 @@
-package org.island.location;
+package org.island.model;
 
 import lombok.Getter;
 import org.island.settings.Config;
@@ -12,10 +12,10 @@ and toString() methods for all fields in the class.
 
 @Getter
 public class Island {
-    private final Location[][] GRID;
+    private final Location[][] grid;
 
     public Island(Config config) {
-        this.GRID = new Location[config.getRows()] [config.getColumns()];
+        this.grid = new Location[config.getIslandSimulationConfig().getIslandSize().getRows()] [config.getIslandSimulationConfig().getIslandSize().getColumns()];
     }
 
 }

@@ -8,7 +8,7 @@ import java.util.Map;
 
 @Getter
 @Setter
-public class CreatureConfig {
+public final class AnimalParameters {
     private Map<String, AnimalParams> limits;
     private Map<String, String> icons;
     private Map<String, Map<String, Integer>> foodMap;
@@ -19,6 +19,5 @@ public class CreatureConfig {
         private double maxWeight;
         private int maxPopulation;
         private int speed;
-
     }
 }

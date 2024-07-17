@@ -8,7 +8,7 @@ islandSimulationConfig:
     weightDecreaseFactor: 0.03
     deathThreshold: 0.1
 
-animalParameters:
+organismParameters:
   limits:
     Wolf:
       maxWeight: 50.0

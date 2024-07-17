@@ -4,13 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import lombok.SneakyThrows;
 import org.island.entity.EOrganisms;
-import org.island.settings.AnimalParameters;
+import org.island.settings.OrganismParameters;
 import org.island.entity.OrganismDTO;
 
 import java.io.InputStream;
 
 public class OrganismFactory {
-    private static final AnimalParameters config;
+    private static final OrganismParameters config;
 
     private OrganismFactory() {
     }
@@ -19,7 +19,7 @@ public class OrganismFactory {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         InputStream inputStream = OrganismFactory.class.getClassLoader().getResourceAsStream("new_master_config.yaml");
         try {
-            config = mapper.readValue(inputStream, AnimalParameters.class);
+            config = mapper.readValue(inputStream, OrganismParameters.class);
         } catch (Exception e) {
             throw new RuntimeException("Failed to load configuration", e);
         }
@@ -27,7 +27,7 @@ public class OrganismFactory {
 
     @SneakyThrows
     public static OrganismDTO createOrganism(EOrganisms organism) {
-        AnimalParameters.AnimalParams params = config.getLimits().get(organism.getType());
+        OrganismParameters.AnimalParams params = config.getLimits().get(organism.getType());
         return OrganismDTO.builder()
                 .type(organism.getType())
                 .groupId(organism.getGroupId())

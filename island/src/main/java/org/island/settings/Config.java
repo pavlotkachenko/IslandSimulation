@@ -1,7 +1,5 @@
 package org.island.settings;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import lombok.Getter;
@@ -16,7 +14,7 @@ public final class Config {
     public static final String SETTING_YAML = "new_master_config.yaml";
 
     private IslandSimulationConfig islandSimulationConfig;
-    private AnimalParameters animalParameters;
+    private OrganismParameters organismParameters;
 
     private static Config instance;
 

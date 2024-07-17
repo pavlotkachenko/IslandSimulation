@@ -8,7 +8,7 @@ import java.util.Map;
 
 @Getter
 @Setter
-public final class AnimalParameters {
+public final class OrganismParameters {
     private Map<String, AnimalParams> limits;
     private Map<String, String> icons;
     private Map<String, Map<String, Integer>> foodMap;

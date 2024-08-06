@@ -2,17 +2,25 @@ package org.island.factory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import lombok.Getter;
 import lombok.SneakyThrows;
 import org.island.entity.EOrganisms;
 import org.island.settings.OrganismParameters;
 import org.island.entity.OrganismDTO;
 
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
+@Getter
 public class OrganismFactory {
     private static final OrganismParameters config;
+    private final Map<String, OrganismDTO> ORGANISMS = new HashMap<>();
 
-    private OrganismFactory() {
+    public OrganismFactory() {
+        for (EOrganisms value : EOrganisms.values()) {
+            ORGANISMS.put(value.getType(), createOrganism(value));
+        }
     }
 
     static {
@@ -37,4 +45,6 @@ public class OrganismFactory {
                 .speed(params.getSpeed())
                 .build();
     }
+
+
 }

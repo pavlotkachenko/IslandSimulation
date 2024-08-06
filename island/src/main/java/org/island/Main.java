@@ -1,5 +1,6 @@
 package org.island;
 
+import org.island.factory.OrganismFactory;
 import org.island.model.Island;
 import org.island.services.*;
 import org.island.simulation.Simulation;
@@ -18,8 +19,10 @@ public class Main {
         //Init island
         Island island = new Island(config);
 
+        OrganismFactory factory = new OrganismFactory();
+
         //Init view
-        View view = new ConsoleView(island);
+        View view = new ConsoleView(island, factory);
 
         // Initialize simulation
         Simulation gameWorker = getSimulation(config, island, view);

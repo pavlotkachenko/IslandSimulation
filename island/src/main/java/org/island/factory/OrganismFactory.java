@@ -1,14 +1,12 @@
 package org.island.factory;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.island.entity.EOrganisms;
-import org.island.settings.OrganismParameters;
 import org.island.entity.OrganismDTO;
+import org.island.settings.Config;
+import org.island.settings.OrganismParameters;
 
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,19 +15,14 @@ public class OrganismFactory {
     private static final OrganismParameters config;
     private final Map<String, OrganismDTO> ORGANISMS = new HashMap<>();
 
+    static {
+        Config configuration = Config.initialize();
+        config = configuration.getOrganismParameters();
+    }
+
     public OrganismFactory() {
         for (EOrganisms value : EOrganisms.values()) {
             ORGANISMS.put(value.getType(), createOrganism(value));
-        }
-    }
-
-    static {
-        ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-        InputStream inputStream = OrganismFactory.class.getClassLoader().getResourceAsStream("new_master_config.yaml");
-        try {
-            config = mapper.readValue(inputStream, OrganismParameters.class);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to load configuration", e);
         }
     }
 
@@ -45,6 +38,4 @@ public class OrganismFactory {
                 .speed(params.getSpeed())
                 .build();
     }
-
-
 }

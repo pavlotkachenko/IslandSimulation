@@ -14,32 +14,44 @@ public class Main {
         System.out.println("Hello and Welcome to the Island Simulation!");
 
         //Load configuration
-        Config config = Config.initialize();
+        Config config = loadConfig();
 
-        //Init island
-        Island island = new Island(config);
-
-        OrganismFactory factory = new OrganismFactory();
+        //Init island and factory
+        Island island = createIsland(config);
+        OrganismFactory factory = createFactory();
 
         //Init view
-        View view = new ConsoleView(island, factory);
+        View view = createView(island, factory);
 
         // Initialize simulation
-        Simulation gameWorker = getSimulation(config, island, view);
+        Simulation simulation = createSimulation(config, island, view);
 
-        //Populate island
-        gameWorker.populateIsland(island);
-
-        //StartSimulation
-        gameWorker.runCycle();
+        //Populate island and start simulation
+        runSimulation(simulation, island);
     }
 
+    private static Config loadConfig() {
+        return Config.initialize();
+    }
 
-    private static Simulation getSimulation(Config config, Island island, View view) {
+    private static Island createIsland(Config config) {
+        return new Island(config);
+    }
+
+    private static OrganismFactory createFactory() {
+        return new OrganismFactory();
+    }
+
+    private static View createView(Island island, OrganismFactory factory) {
+        return new ConsoleView(island, factory);
+    }
+
+    private static Simulation createSimulation(Config config, Island island, View view) {
         MovementService movementService = new AnimalMovementService();
         MatingService matingService = new AnimalMatingService();
         FeedingService feedingService = new AnimalFeedingService();
         DeathService deathService = new AnimalDeathService();
+
         return new Simulation(
                 view,
                 island,
@@ -48,5 +60,10 @@ public class Main {
                 matingService,
                 feedingService,
                 deathService);
+    }
+
+    private static void runSimulation(Simulation simulation, Island island) {
+        simulation.populateIsland(island);
+        simulation.runCycle();
     }
 }

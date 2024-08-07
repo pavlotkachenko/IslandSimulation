@@ -85,6 +85,11 @@ organismParameters:
       maxPopulation: 1000
       speed: 0
 
+    Herb:
+      maxWeight: 0.01
+      maxPopulation: 1000
+      speed: 0
+
   icons:
     Wolf: "🐺"
     Python: "🐍"

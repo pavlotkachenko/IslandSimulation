@@ -2,20 +2,24 @@ package org.island.model;
 
 import lombok.Getter;
 import org.island.settings.Config;
-/*
-06/15/2024:
-Island Class: Manages the entire island grid using a 2-dimensional array of Location objects.
 
-@Data: Lombok annotation that automatically generates getters, setters, equals(), hashCode(),
-and toString() methods for all fields in the class.
- */
 
 @Getter
 public class Island {
     private final Location[][] grid;
 
     public Island(Config config) {
-        this.grid = new Location[config.getIslandSimulationConfig().getIslandSize().getRows()] [config.getIslandSimulationConfig().getIslandSize().getColumns()];
+        int rows = config.getIslandSimulationConfig().getIslandSize().getRows();
+        int columns = config.getIslandSimulationConfig().getIslandSize().getColumns();
+        this.grid = new Location[rows][columns];
+        initializeGrid(rows, columns);
     }
 
+    private void initializeGrid(int rows, int columns) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                grid[i][j] = new Location(i, j);
+            }
+        }
+    }
 }

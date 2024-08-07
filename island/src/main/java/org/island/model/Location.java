@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Data
 @RequiredArgsConstructor
@@ -15,8 +16,7 @@ public class Location {
     private final int row;
     private final int column;
     private List<Location> directions;
-    private HashMap<String, Set<OrganismDTO>> residents;
+    private HashMap<String, Set<OrganismDTO>> residents = new HashMap<>();
 
-    @Getter
-    private final Lock lock;
+    private final Lock lock = new ReentrantLock();
 }

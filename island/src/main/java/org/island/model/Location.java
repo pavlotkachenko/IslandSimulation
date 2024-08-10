@@ -17,6 +17,5 @@ public class Location {
     private final int column;
     private List<Location> directions;
     private HashMap<String, Set<OrganismDTO>> residents = new HashMap<>();
-
     private final Lock lock = new ReentrantLock();
 }

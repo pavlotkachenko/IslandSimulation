@@ -30,7 +30,7 @@ public class AnimalMovementService implements MovementService {
     }
 
     private Location findCurrentLocation(OrganismDTO organism, Island island) {
-        for (Location[] row : island.getGrid()) {
+        for (Location[] row : island.getGRID()) {
             for (Location location : row) {
                 if (location.getResidents().getOrDefault(organism.getType(), new HashSet<>()).contains(organism)) {
                     return location;

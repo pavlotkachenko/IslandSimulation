@@ -30,4 +30,9 @@ public class ConsoleView implements View {
     public void showMap() {
         viewMapService.showMap(island);
     }
+
+    @Override
+    public void showMessage(String message) {
+        System.out.println(message);
+    }
 }

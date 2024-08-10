@@ -22,4 +22,12 @@ public class OrganismDTO {
     private double maxWeight;
     private int maxPopulation;
     private int speed;
+
+    public EOrganisms getOrganismType() {
+        try {
+            return EOrganisms.valueOf(type.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return EOrganisms.HERB;
+        }
+    }
 }

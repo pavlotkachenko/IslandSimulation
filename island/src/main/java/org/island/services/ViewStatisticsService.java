@@ -6,7 +6,6 @@ import org.island.model.Island;
 import org.island.model.Location;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -17,25 +16,28 @@ public class ViewStatisticsService {
         Map<String, Integer> statsGrassEaters = new HashMap<>();
         Map<String, Integer> statsPlants = new HashMap<>();
 
-        Location[][] grid = island.getGrid();
-
+        Location[][] grid = island.getGRID();
         for (Location[] row : grid) {
             for (Location location : row) {
                 var residents = location.getResidents();
                 if (Objects.nonNull(residents)) {
                     residents.values().stream()
-                            .filter(set -> set.size() > 0)
+                            .filter(set -> !set.isEmpty())
                             .forEach(set -> {
                                 OrganismDTO organism = set.stream().findAny().get();
-                                String name = organism.getClass().getSimpleName();
-                                String icon = organism.getIcon();
+                                EOrganisms organismType = organism.getOrganismType();
+                                String name = organismType.getType();
+                                String icon = Objects.nonNull(organism.getIcon()) ? organism.getIcon() : "";
                                 String info = icon + name;
 
-                                if (!organism.getRation().containsKey("Herb")) {
-                                    statsPredators.put(info, statsPredators.getOrDefault(info, 0) + set.size());
-                                } else if (organism.getRation().containsKey("Herb")) {
-                                    statsGrassEaters.put(info, statsGrassEaters.getOrDefault(info, 0) + set.size());
-                                } else {
+                                // Распределение по соответствующим категориям
+                                if (organismType.isAnimal()) {
+                                    if (organismType.getGroupId() <= 4) { // Предположительно, хищники имеют groupId от 0 до 4
+                                        statsPredators.put(info, statsPredators.getOrDefault(info, 0) + set.size());
+                                    } else { // Остальные животные - травоядные
+                                        statsGrassEaters.put(info, statsGrassEaters.getOrDefault(info, 0) + set.size());
+                                    }
+                                } else { // Все, что не является животным, - это растения
                                     statsPlants.put(info, statsPlants.getOrDefault(info, 0) + set.size());
                                 }
                             });

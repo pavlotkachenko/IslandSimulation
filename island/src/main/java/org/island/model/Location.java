@@ -1,6 +1,5 @@
 package org.island.model;
 
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.island.entity.OrganismDTO;
 
@@ -8,14 +7,19 @@ import java.util.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-@RequiredArgsConstructor
 @ToString
 public class Location {
     private final int row;
     private final int column;
     private List<Location> directions;
-    private Map<String, Set<OrganismDTO>> residents = new HashMap<>();
+    private Map<String, Set<OrganismDTO>> residents;
     private final Lock lock = new ReentrantLock();
+
+    public Location(int row, int column) {
+        this.row = row;
+        this.column = column;
+        this.residents = new HashMap<>();
+    }
 
     public int getRow() {
         return this.row;
@@ -45,13 +49,9 @@ public class Location {
         this.residents = residents;
     }
 
-    public Set<OrganismDTO> addResident(OrganismDTO resident) {
-        Set<OrganismDTO> organismDTOS = this.residents.get(resident.getType());
-        if (organismDTOS == null) {
-            organismDTOS = new HashSet<>();
-        }
-        organismDTOS.add(resident);
-        return organismDTOS;
+    public void addResident(OrganismDTO resident) {
+        Set<OrganismDTO> organismSet = residents.computeIfAbsent(resident.getType(), k -> new HashSet<>());
+        organismSet.add(resident);
     }
 
     public boolean equals(final Object o) {

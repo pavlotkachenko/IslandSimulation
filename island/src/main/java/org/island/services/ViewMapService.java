@@ -10,9 +10,9 @@ import org.island.settings.Config;
 import java.util.*;
 
 public class ViewMapService {
-    //TODO Вынести в отдельный файл конфигурации
+
     public static final int HEIGHT_DIAGRAM = 10;
-    public static final int POPULATION_HIGH = 70; // int between 40 - 100
+    public static final int POPULATION_HIGH = 70;
     public static final int POPULATION_AVERAGE = POPULATION_HIGH - 40;
 
     private final OrganismFactory factory;
@@ -20,18 +20,25 @@ public class ViewMapService {
     public ViewMapService(OrganismFactory factory) {
         this.factory = factory;
     }
-    //TODO Карта отрисовывается, но некорректно
+
     public void showMap(Island island) {
         StringBuilder out = new StringBuilder("\n");
-        Map<String, OrganismDTO> prototypes = factory.getORGANISMS();
-        List<OrganismDTO> organisms = new ArrayList<>(prototypes.values());
         Location[][] grid = island.getGRID();
+        List<OrganismDTO> organisms = createOrganismPrototypes();
         int organismsCount = organisms.size();
         Map<EOrganisms, Integer> currentPopulation = countOrganisms(organisms, grid);
         drawDiagram(out, organisms, organismsCount, currentPopulation);
         out.append("\n").append(" ".repeat(5)).append("|");
         drawIcons(out, organisms);
         System.out.println(out);
+    }
+
+    private List<OrganismDTO> createOrganismPrototypes() {
+        List<OrganismDTO> organisms = new ArrayList<>();
+        for (EOrganisms organismType : EOrganisms.values()) {
+            organisms.add(OrganismFactory.createOrganism(organismType));
+        }
+        return organisms;
     }
 
     private void drawDiagram(StringBuilder out, List<OrganismDTO> organisms, int organismsCount, Map<EOrganisms, Integer> currentPopulation) {
@@ -41,7 +48,7 @@ public class ViewMapService {
 
             for (int col = 0; col < organismsCount; col++) {
                 String residentString = fill(row, col, currentPopulation, organisms);
-                int locationWidth = 4; // Adjust width based on icon size
+                int locationWidth = 4;
                 out.append(String.format("%-" + locationWidth + "s", residentString));
             }
 
@@ -50,7 +57,7 @@ public class ViewMapService {
     }
 
     private void drawIcons(StringBuilder out, List<OrganismDTO> organisms) {
-        int iconWidth = 1; // Width for spacing icons
+        int iconWidth = 1;
         for (int i = 0; i < organisms.size(); i++) {
             String icon = organisms.get(i).getIcon();
             out.append(icon);
@@ -107,10 +114,10 @@ public class ViewMapService {
 
                 color = Color.FILL_RED;
             }
-            return color + "  "; // Два пробела для заполнения
+            return color + "  ";
         }
 
-        return Color.RESET + ".."; // Два точки для пустого места
+        return Color.RESET + "..";
     }
 
     private static class Color {

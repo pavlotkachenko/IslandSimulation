@@ -1,6 +1,7 @@
 package org.island.simulation;
 
 import lombok.RequiredArgsConstructor;
+import org.island.entity.EOrganisms;
 import org.island.entity.OrganismDTO;
 import org.island.factory.OrganismFactory;
 import org.island.model.Island;
@@ -18,7 +19,7 @@ import java.util.Map;
 import java.util.Set;
 
 @RequiredArgsConstructor
-public class Simulation implements SimulationEngine{
+public class Simulation implements SimulationEngine {
     private final View view;
     private final Island island;
     private final int period;
@@ -30,27 +31,28 @@ public class Simulation implements SimulationEngine{
 
     public void populateIsland(Island island) {
         Location[][] grid = island.getGRID();
-        Map<String, OrganismDTO> prototypes = organismFactory.getORGANISMS();
 
         for (Location[] locations : grid) {
             for (Location location : locations) {
                 Map<String, Set<OrganismDTO>> residents = location.getResidents();
 
-                for (OrganismDTO organism : prototypes.values()) {
-                    String type = organism.getType();
-                    int maxCount = organism.getMaxPopulation();
+                for (EOrganisms organismType : EOrganisms.values()) {
+                    String type = organismType.getType();
+                    int maxCount = organismFactory.createOrganism(organismType).getMaxPopulation();
                     int count = Randomizer.random(maxCount / 2, maxCount);
                     Set<OrganismDTO> organismSet = new HashSet<>();
 
                     for (int i = 0; i < count; i++) {
-                        organismSet.add(organismFactory.getORGANISMS().get(type));
+                        // Создание нового экземпляра для каждого организма
+                        organismSet.add(OrganismFactory.createOrganism(organismType));
                     }
                     residents.put(type, organismSet);
                 }
             }
         }
     }
-    //TODO Сервисы дописать
+
+    // TODO: Дописать сервисы
     public void runCycle() {
         Location[][] grid = island.getGRID();
 
@@ -62,17 +64,17 @@ public class Simulation implements SimulationEngine{
                 for (Location location : locations) {
                     Map<String, Set<OrganismDTO>> residents = location.getResidents();
 
-/*                    // Move organisms
-                    movementService.move(location);
+                    // Move organisms
+                    // movementService.move(location);
 
-*//*                    // Feed organisms
-                    feedingService.feed(location);
+                    // Feed organisms
+                    // feedingService.feed(location);
 
                     // Mate organisms
-                    matingService.mate(location);
+                    // matingService.mate(location);
 
                     // Handle deaths
-                    deathService.handleDeaths(location);*/
+                    // deathService.handleDeaths(location);
                 }
             }
 
@@ -91,6 +93,6 @@ public class Simulation implements SimulationEngine{
         populateIsland(island);
 
         view.showMessage("Starting simulation...");
-//        runCycle();
+        // runCycle();
     }
 }

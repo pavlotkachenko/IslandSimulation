@@ -49,34 +49,30 @@ public class MapCreatorService {
 
     private void populateIsland(Island island) {
         Location[][] grid = island.getGRID();
-        Map<String, OrganismDTO> prototypes = organismFactory.getORGANISMS();
-        Set<OrganismDTO> organismSet = new HashSet<>();
-        for (Location[] value : grid) {
-            for (Location location : value) {
-                Map<String, Set<OrganismDTO>> residents = location.getResidents();
-                for (OrganismDTO organism : prototypes.values()) {
-                    String type = organism.getType();
-                    int maxCount = organism.getMaxPopulation();
-                    int count = Randomizer.random(maxCount / 2, maxCount);
+
+        for (Location[] row : grid) {
+            for (Location location : row) {
+                for (EOrganisms organismType : EOrganisms.values()) {
+                    OrganismDTO prototype = OrganismFactory.createOrganism(organismType);
+                    int maxCount = prototype.getMaxPopulation();
+                    int count = Randomizer.random(0, maxCount);
 
                     for (int i = 0; i < count; i++) {
-                        location.addResident(OrganismFactory
-                                .createOrganism(EOrganisms.valueOf(type.toUpperCase())));
-                    } //Добавить какое-то количество (count) объектов ПО ШАБЛОНУ
-                    residents.put(type, organismSet);
+                        location.addResident(OrganismFactory.createOrganism(organismType));
+                    }
                 }
-//                location.setResidents(residents);//Переписать
-//                residents.values().forEach(System.out::println);
+//                logLocationContent(location);// Метод проверки количества каждого вида на клетке
             }
         }
-        for (Location[] value : grid) {
-            for (Location location : value) {
-                Map<String, Set<OrganismDTO>> residents = location.getResidents();
-                for (String type : residents.keySet()) {
-                    System.out.println(type + residents.get(type));
-                }
-            }
+    }
+
+    private void logLocationContent(Location location) {
+        StringBuilder log = new StringBuilder();
+        log.append("Location (").append(location.getRow()).append(", ").append(location.getColumn()).append("): ");
+        for (Map.Entry<String, Set<OrganismDTO>> entry : location.getResidents().entrySet()) {
+            log.append(entry.getKey()).append(" - ").append(entry.getValue().size()).append("; ");
         }
+        System.out.println(log.toString());
     }
 
     private void findLocationNeighbors(Island island) {

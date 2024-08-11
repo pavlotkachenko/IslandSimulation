@@ -31,15 +31,13 @@ public class ViewStatisticsService {
                                 String icon = Objects.nonNull(organism.getIcon()) ? organism.getIcon() : "";
                                 String info = icon + name;
 
-                                // Распределение по соответствующим категориям
                                 if (organismType.isAnimal()) {
-                                    System.out.println(set.size());
                                     if (organismType.getGroupId() <= 4) {
                                         statsPredators.put(info, statsPredators.getOrDefault(info, 0) + set.size());
-                                    } else { // Остальные животные - травоядные
+                                    } else {
                                         statsGrassEaters.put(info, statsGrassEaters.getOrDefault(info, 0) + set.size());
                                     }
-                                } else { // Все, что не является животным, - это растения
+                                } else {
                                     statsPlants.put(info, statsPlants.getOrDefault(info, 0) + set.size());
                                 }
                             });

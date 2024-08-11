@@ -54,7 +54,7 @@ public class ViewMapService {
     }
 
     private void drawIcons(StringBuilder out, List<OrganismDTO> organisms) {
-        out.append(" ".repeat(5)); // Padding for icons
+        out.append(" ".repeat(5));
         organisms.forEach(organism -> out.append(organism.getIcon()).append(" "));
         out.append("\n");
     }

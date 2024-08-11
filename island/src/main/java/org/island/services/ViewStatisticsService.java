@@ -34,10 +34,12 @@ public class ViewStatisticsService {
                                 if (organismType.isAnimal()) {
                                     if (organismType.getGroupId() <= 4) {
                                         statsPredators.put(info, statsPredators.getOrDefault(info, 0) + set.size());
-                                    } else {
+                                    }
+                                    else {
                                         statsGrassEaters.put(info, statsGrassEaters.getOrDefault(info, 0) + set.size());
                                     }
-                                } else {
+                                }
+                                else {
                                     statsPlants.put(info, statsPlants.getOrDefault(info, 0) + set.size());
                                 }
                             });

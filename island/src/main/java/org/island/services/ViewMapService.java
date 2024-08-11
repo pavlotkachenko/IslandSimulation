@@ -8,12 +8,13 @@ import org.island.model.Location;
 import org.island.settings.Config;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ViewMapService {
 
-    public static final int HEIGHT_DIAGRAM = 10;
-    public static final int POPULATION_HIGH = 70;
-    public static final int POPULATION_AVERAGE = POPULATION_HIGH - 40;
+    private static final int HEIGHT_DIAGRAM = 10;
+    private static final int POPULATION_HIGH = 90;
+    private static final int POPULATION_AVERAGE = 50;
 
     private final OrganismFactory factory;
 
@@ -25,99 +26,74 @@ public class ViewMapService {
         StringBuilder out = new StringBuilder("\n");
         Location[][] grid = island.getGRID();
         List<OrganismDTO> organisms = createOrganismPrototypes();
-        int organismsCount = organisms.size();
         Map<EOrganisms, Integer> currentPopulation = countOrganisms(organisms, grid);
-        drawDiagram(out, organisms, organismsCount, currentPopulation);
-        out.append("\n").append(" ".repeat(5)).append("|");
+        drawPopulationDiagram(out, organisms, currentPopulation);
         drawIcons(out, organisms);
         System.out.println(out);
     }
 
     private List<OrganismDTO> createOrganismPrototypes() {
-        List<OrganismDTO> organisms = new ArrayList<>();
-        for (EOrganisms organismType : EOrganisms.values()) {
-            organisms.add(OrganismFactory.createOrganism(organismType));
-        }
-        return organisms;
+        return Arrays.stream(EOrganisms.values())
+                .map(OrganismFactory::createOrganism)
+                .collect(Collectors.toList());
     }
 
-    private void drawDiagram(StringBuilder out, List<OrganismDTO> organisms, int organismsCount, Map<EOrganisms, Integer> currentPopulation) {
+    private void drawPopulationDiagram(StringBuilder out, List<OrganismDTO> organisms, Map<EOrganisms, Integer> currentPopulation) {
         for (int row = 0; row < HEIGHT_DIAGRAM; row++) {
             int percent = 100 - row * 10;
             out.append(String.format("%-3d %%|", percent));
 
-            for (int col = 0; col < organismsCount; col++) {
-                String residentString = fill(row, col, currentPopulation, organisms);
-                int locationWidth = 4;
-                out.append(String.format("%-" + locationWidth + "s", residentString));
+            for (OrganismDTO organism : organisms) {
+                String residentString = getPopulationFill(row, organism, currentPopulation);
+                out.append(residentString);
             }
 
-            out.append("\n");
+
+            out.append(Color.RESET).append("\n");
         }
     }
 
     private void drawIcons(StringBuilder out, List<OrganismDTO> organisms) {
-        int iconWidth = 1;
-        for (int i = 0; i < organisms.size(); i++) {
-            String icon = organisms.get(i).getIcon();
-            out.append(icon);
-            if (i < organisms.size() - 1) {
-                out.append("  ".repeat(iconWidth));
-            }
-        }
+        out.append(" ".repeat(5)); // Padding for icons
+        organisms.forEach(organism -> out.append(organism.getIcon()).append(" "));
+        out.append("\n");
     }
 
     private Map<EOrganisms, Integer> countOrganisms(List<OrganismDTO> organisms, Location[][] grid) {
         Map<EOrganisms, Integer> result = new EnumMap<>(EOrganisms.class);
         for (Location[] row : grid) {
             for (Location location : row) {
-                Map<String, Set<OrganismDTO>> residents = location.getResidents();
-                if (Objects.nonNull(residents)) {
-                    for (OrganismDTO organism : organisms) {
-                        EOrganisms type = organism.getOrganismType();
-                        Set<OrganismDTO> organismsSet = residents.get(type.getType());
-                        if (organismsSet != null) {
-                            int count = result.getOrDefault(type, 0) + organismsSet.size();
-                            result.put(type, count);
-                        }
-                    }
-                }
+                location.getResidents().values().stream()
+                        .flatMap(Set::stream)
+                        .map(OrganismDTO::getOrganismType)
+                        .forEach(type -> result.merge(type, 1, Integer::sum));
             }
         }
         return result;
     }
 
-    private String fill(int row, int col, Map<EOrganisms, Integer> currentPopulation, List<OrganismDTO> organisms) {
-        OrganismDTO organism = organisms.get(col);
-        EOrganisms type = organism.getOrganismType();
+    private String getPopulationFill(int row, OrganismDTO organism, Map<EOrganisms, Integer> currentPopulation) {
         Config config = Config.initialize();
-        int mapRow = config.getIslandSimulationConfig().getIslandSize().getRows();
-        int mapCol = config.getIslandSimulationConfig().getIslandSize().getColumns();
-        int maxCount = organism.getMaxPopulation() * mapRow * mapCol;
-        int currentCount = currentPopulation.getOrDefault(type, 0);
+        int totalCells = config.getIslandSimulationConfig().getIslandSize().getRows() *
+                config.getIslandSimulationConfig().getIslandSize().getColumns();
+        int maxCount = organism.getMaxPopulation() * totalCells;
+        int currentCount = currentPopulation.getOrDefault(organism.getOrganismType(), 0);
         double ratioPercent = 100.0 * currentCount / maxCount;
         double currentPercent = 100.0 - row * 10;
-
-        String filler = choseFiller(ratioPercent, currentPercent);
-        return filler;
+        System.out.println(ratioPercent + " " + currentPercent);
+        return ratioPercent >= currentPercent
+                ? chooseColorBasedOnPopulation(ratioPercent) + "   "
+                : Color.RESET + "   ";
     }
 
-    private String choseFiller(double ratioPercent, double currentPercent) {
-        String color;
-
-        if (currentPercent <= ratioPercent) {
-            if (ratioPercent >= POPULATION_HIGH) {
-                color = Color.FILL_GREEN;
-            } else if (ratioPercent >= POPULATION_AVERAGE) {
-                color = Color.FILL_YELLOW;
-            } else {
-
-                color = Color.FILL_RED;
-            }
-            return color + "  ";
+    private String chooseColorBasedOnPopulation(double ratioPercent) {
+        if (ratioPercent >= POPULATION_HIGH) {
+            return Color.FILL_GREEN;
+        } else if (ratioPercent >= POPULATION_AVERAGE) {
+            return Color.FILL_YELLOW;
+        } else {
+            return Color.FILL_RED;
         }
-
-        return Color.RESET + "..";
     }
 
     private static class Color {

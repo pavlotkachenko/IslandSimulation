@@ -13,19 +13,6 @@ import java.util.stream.Collectors;
 
 public class AnimalMovementService implements MovementService {
 
-    @Override
-    public void move(OrganismDTO organism, Island island) {
-        if (organism != null) {
-            int speed = organism.getSpeed();
-            if (speed > 0) {
-                Location currentLocation = findCurrentLocation(organism, island);
-                if (currentLocation != null) {
-                    move(organism, currentLocation);
-                }
-            }
-        }
-    }
-
     private Location findCurrentLocation(OrganismDTO organism, Island island) {
         for (Location[] row : island.getGRID()) {
             for (Location location : row) {
@@ -63,7 +50,7 @@ public class AnimalMovementService implements MovementService {
         return destination;
     }
 
-    private void move(OrganismDTO animal, Location currentLocation) {
+    public void move(OrganismDTO animal, Location currentLocation) {
         int speed = animal.getSpeed();
         int countOfSteps = Randomizer.random(speed);
         Location destination = findDestinationLocation(countOfSteps, currentLocation, animal);
@@ -106,6 +93,4 @@ public class AnimalMovementService implements MovementService {
             lock.unlock();
         }
     }
-
-
 }

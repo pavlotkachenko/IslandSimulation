@@ -26,4 +26,5 @@ public enum EOrganisms {
     private final String type;
     private final int groupId;
     private final boolean isAnimal;
+    //groupId -> group (plants, grasseaters, predators)
 }

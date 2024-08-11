@@ -1,6 +1,7 @@
 package org.island.services;
 
 
+import org.island.entity.EOrganisms;
 import org.island.entity.OrganismDTO;
 import org.island.factory.OrganismFactory;
 import org.island.model.Island;
@@ -49,22 +50,31 @@ public class MapCreatorService {
     private void populateIsland(Island island) {
         Location[][] grid = island.getGRID();
         Map<String, OrganismDTO> prototypes = organismFactory.getORGANISMS();
+        Set<OrganismDTO> organismSet = new HashSet<>();
         for (Location[] value : grid) {
             for (Location location : value) {
-                HashMap<String, Set<OrganismDTO>> residents = location.getResidents();
+                Map<String, Set<OrganismDTO>> residents = location.getResidents();
                 for (OrganismDTO organism : prototypes.values()) {
                     String type = organism.getType();
                     int maxCount = organism.getMaxPopulation();
                     int count = Randomizer.random(maxCount / 2, maxCount);
-                    Set<OrganismDTO> organismSet = new HashSet<>();
 
                     for (int i = 0; i < count; i++) {
-                        organismSet.add(organismFactory.getORGANISMS().get(type));
-                    }
-
+                        location.addResident(OrganismFactory
+                                .createOrganism(EOrganisms.valueOf(type.toUpperCase())));
+                    } //Добавить какое-то количество (count) объектов ПО ШАБЛОНУ
                     residents.put(type, organismSet);
                 }
-                location.setResidents(residents);
+//                location.setResidents(residents);//Переписать
+//                residents.values().forEach(System.out::println);
+            }
+        }
+        for (Location[] value : grid) {
+            for (Location location : value) {
+                Map<String, Set<OrganismDTO>> residents = location.getResidents();
+                for (String type : residents.keySet()) {
+                    System.out.println(type + residents.get(type));
+                }
             }
         }
     }

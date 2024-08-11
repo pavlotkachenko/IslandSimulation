@@ -6,10 +6,7 @@ import org.island.model.Island;
 import org.island.model.Location;
 import org.island.util.Randomizer;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.locks.Lock;
 import java.util.stream.Collectors;
 
@@ -81,7 +78,7 @@ public class AnimalMovementService implements MovementService {
         lock.lock();
         try {
             String type = animal.getType();
-            HashMap<String, Set<OrganismDTO>> residents = destination.getResidents();
+            Map<String, Set<OrganismDTO>> residents = destination.getResidents();
             Set<OrganismDTO> sameKindOrganisms = residents.computeIfAbsent(type, k -> new HashSet<>());
 
             if (sameKindOrganisms.size() < animal.getMaxPopulation()) {
@@ -98,7 +95,7 @@ public class AnimalMovementService implements MovementService {
         Lock lock = location.getLock();
         lock.lock();
         try {
-            HashMap<String, Set<OrganismDTO>> residents = location.getResidents();
+            Map<String, Set<OrganismDTO>> residents = location.getResidents();
             String type = animal.getType();
             Set<OrganismDTO> sameKindOrganisms = residents.get(type);
 

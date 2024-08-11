@@ -8,6 +8,7 @@ import org.island.model.Location;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 public class ViewStatisticsService {
 
@@ -19,10 +20,10 @@ public class ViewStatisticsService {
         Location[][] grid = island.getGRID();
         for (Location[] row : grid) {
             for (Location location : row) {
-                var residents = location.getResidents();
+                Map<String, Set<OrganismDTO>> residents = location.getResidents();
                 if (Objects.nonNull(residents)) {
                     residents.values().stream()
-                            .filter(set -> !set.isEmpty())
+                            .filter(set -> set.size() > 0)
                             .forEach(set -> {
                                 OrganismDTO organism = set.stream().findAny().get();
                                 EOrganisms organismType = organism.getOrganismType();
@@ -32,7 +33,8 @@ public class ViewStatisticsService {
 
                                 // Распределение по соответствующим категориям
                                 if (organismType.isAnimal()) {
-                                    if (organismType.getGroupId() <= 4) { // Предположительно, хищники имеют groupId от 0 до 4
+                                    System.out.println(set.size());
+                                    if (organismType.getGroupId() <= 4) {
                                         statsPredators.put(info, statsPredators.getOrDefault(info, 0) + set.size());
                                     } else { // Остальные животные - травоядные
                                         statsGrassEaters.put(info, statsGrassEaters.getOrDefault(info, 0) + set.size());

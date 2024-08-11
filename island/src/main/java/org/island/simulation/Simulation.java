@@ -34,7 +34,7 @@ public class Simulation implements SimulationEngine{
 
         for (Location[] locations : grid) {
             for (Location location : locations) {
-                HashMap<String, Set<OrganismDTO>> residents = location.getResidents();
+                Map<String, Set<OrganismDTO>> residents = location.getResidents();
 
                 for (OrganismDTO organism : prototypes.values()) {
                     String type = organism.getType();
@@ -91,6 +91,6 @@ public class Simulation implements SimulationEngine{
         populateIsland(island);
 
         view.showMessage("Starting simulation...");
-        runCycle();
+//        runCycle();
     }
 }

@@ -64,7 +64,7 @@ public class ViewMapService {
         Map<EOrganisms, Integer> result = new EnumMap<>(EOrganisms.class);
         for (Location[] row : grid) {
             for (Location location : row) {
-                HashMap<String, Set<OrganismDTO>> residents = location.getResidents();
+                Map<String, Set<OrganismDTO>> residents = location.getResidents();
                 if (Objects.nonNull(residents)) {
                     for (OrganismDTO organism : organisms) {
                         EOrganisms type = organism.getOrganismType();

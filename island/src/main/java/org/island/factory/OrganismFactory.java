@@ -27,7 +27,7 @@ public class OrganismFactory {
     }
 
     @SneakyThrows
-    private static OrganismDTO createOrganism(EOrganisms organism) {
+    public static OrganismDTO createOrganism(EOrganisms organism) {
         OrganismParameters.AnimalParams params = config.getLimits().get(organism.getType());
         return OrganismDTO.builder()
                 .type(organism.getType())

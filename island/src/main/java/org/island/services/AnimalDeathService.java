@@ -6,9 +6,6 @@ import org.island.model.Location;
 
 public class AnimalDeathService implements DeathService {
 
-    public AnimalDeathService(OrganismDTO organism, Location location) {
-        super();
-    }
 
 
     @Override

@@ -1,17 +1,17 @@
 package org.island.services;
 
 import org.island.entity.OrganismDTO;
+import org.island.model.Island;
 import org.island.model.Location;
 
 import java.util.Map;
 import java.util.Set;
 
 public class AnimalMatingService implements MatingService {
-    public AnimalMatingService(OrganismDTO organism, Location location){
-        super();
-    }
+
     @Override
     public void findMate(OrganismDTO organism, Location location) {
+
         location.getLock().lock();
         try{
             Map<String, Set<OrganismDTO>> residents = location.getResidents();

@@ -5,7 +5,7 @@ import org.island.model.Island;
 import org.island.model.Location;
 
 public interface MatingService {
-    void findMate(OrganismDTO organismDTO, Island island);
+//    void findMate(OrganismDTO organismDTO, Island island);
 
-    void findMate(OrganismDTO organism, Location location);
+    void findMate(OrganismDTO organismDTO, Location location);
 }

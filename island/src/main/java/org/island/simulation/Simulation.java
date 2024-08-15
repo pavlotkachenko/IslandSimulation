@@ -76,9 +76,9 @@ public class Simulation implements SimulationEngine {
     private void processLocation(Location location) {
 
         moveOrganisms(location);
-//    feedOrganisms(location);
-//    handleDeaths(location);
-//    mateOrganisms(location);
+    //    feedOrganisms(location);
+    //    handleDeaths(location);
+    //    mateOrganisms(location);
     }
 
     private void moveOrganisms(Location location) {
@@ -116,6 +116,6 @@ public class Simulation implements SimulationEngine {
         populateIsland(island);
 
         view.showMessage("Starting simulation...");
-         runCycle();
+        runCycle();
     }
 }

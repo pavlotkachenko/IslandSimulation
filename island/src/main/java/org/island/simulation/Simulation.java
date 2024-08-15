@@ -13,10 +13,7 @@ import org.island.services.MovementService;
 import org.island.util.Randomizer;
 import org.island.view.View;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @RequiredArgsConstructor
 public class Simulation implements SimulationEngine {
@@ -59,28 +56,8 @@ public class Simulation implements SimulationEngine {
         for (int cycle = 0; cycle < period; cycle++) {
             view.showMessage("Starting cycle " + (cycle + 1));
 
-            // Process each location on the island
-            for (Location[] locations : grid) {
-                for (Location location : locations) {
-                    Map<String, Set<OrganismDTO>> residents = location.getResidents();
-
-                    // Move organisms
-                    // movementService.move(location);
-
-                    // Feed organisms
-                    // feedingService.feed(location);
-
-                    // Mate organisms
-                    // matingService.mate(location);
-
-                    // Handle deaths
-                    // deathService.handleDeaths(location);
-                }
-            }
-
-            // Update view after each cycle
-            view.showStatistics();
-            view.showMap();
+            processLocations(grid);
+            updateView();
 
             view.showMessage("Cycle " + (cycle + 1) + " completed");
         }
@@ -88,11 +65,57 @@ public class Simulation implements SimulationEngine {
         view.showMessage("Simulation completed");
     }
 
+    private void processLocations(Location[][] grid) {
+        for (Location[] locations : grid) {
+            for (Location location : locations) {
+                processLocation(location);
+            }
+        }
+    }
+
+    private void processLocation(Location location) {
+
+        moveOrganisms(location);
+//    feedOrganisms(location);
+//    handleDeaths(location);
+//    mateOrganisms(location);
+    }
+
+    private void moveOrganisms(Location location) {
+        Map<String, Set<OrganismDTO>> residents = location.getResidents();
+        List<String> types = new ArrayList<>(residents.keySet());
+
+        types.forEach(type -> {
+            Set<OrganismDTO> organisms = residents.get(type);
+            if (organisms != null) {
+                organisms.forEach(organism -> movementService.move(organism, location));
+            }
+        });
+    }
+
+// private void feedOrganisms(Location location) {
+//     feedingService.eat(location);
+// }
+
+// private void mateOrganisms(Location location) {
+//     matingService.findMate(location);
+// }
+
+// private void handleDeaths(Location location) {
+//     deathService.die(location);
+// }
+
+    private void updateView() {
+        view.showStatistics();
+        view.showMap();
+    }
+
+
     public void run() {
         view.showMessage("Initializing island population...");
         populateIsland(island);
 
         view.showMessage("Starting simulation...");
-        // runCycle();
+         runCycle();
     }
 }

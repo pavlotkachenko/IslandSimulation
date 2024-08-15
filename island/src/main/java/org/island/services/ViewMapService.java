@@ -80,7 +80,6 @@ public class ViewMapService {
         int currentCount = currentPopulation.getOrDefault(organism.getOrganismType(), 0);
         double ratioPercent = 100.0 * currentCount / maxCount;
         double currentPercent = 100.0 - row * 10;
-        System.out.println(ratioPercent + " " + currentPercent);
         return ratioPercent >= currentPercent
                 ? chooseColorBasedOnPopulation(ratioPercent) + "   "
                 : Color.RESET + "   ";

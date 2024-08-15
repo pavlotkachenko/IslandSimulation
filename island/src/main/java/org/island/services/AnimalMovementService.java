@@ -1,38 +1,23 @@
 package org.island.services;
 
-
 import org.island.entity.OrganismDTO;
-import org.island.model.Island;
 import org.island.model.Location;
 import org.island.util.Randomizer;
 
 import java.util.*;
 import java.util.concurrent.locks.Lock;
-import java.util.stream.Collectors;
-
+import java.util.logging.Logger;
 
 public class AnimalMovementService implements MovementService {
-
-    private Location findCurrentLocation(OrganismDTO organism, Island island) {
-        for (Location[] row : island.getGRID()) {
-            for (Location location : row) {
-                if (location.getResidents().getOrDefault(organism.getType(), new HashSet<>()).contains(organism)) {
-                    return location;
-                }
-            }
-        }
-        return null;
-    }
+    Logger log = Logger.getLogger(this.getClass().getName());
 
     private List<Location> getAvailableDirections(Set<Location> visitedLocations, Location destination) {
-        return destination
-                .getDirections()
-                .stream()
+        return destination.getDirections().stream()
                 .filter(location -> !visitedLocations.contains(location))
-                .collect(Collectors.toList());
+                .toList();
     }
 
-    private Location findDestinationLocation(int countOfSteps, Location location, OrganismDTO organism) {
+    private Location findDestinationLocation(int countOfSteps, Location location) {
         Set<Location> visitedLocations = new HashSet<>();
         Location destination = location;
 
@@ -43,17 +28,28 @@ public class AnimalMovementService implements MovementService {
 
             if (countOfDirections > 0) {
                 int selectedDirection = Randomizer.random(0, countOfDirections);
-                destination = directions.get(selectedDirection);
+                if (selectedDirection < directions.size()) {
+                    destination = directions.get(selectedDirection);
+                    countOfSteps--;
+                }
+                else {
+                    break;
+                }
+            }
+            else {
+                break;
             }
             countOfSteps--;
         }
+
+
         return destination;
     }
 
     public void move(OrganismDTO animal, Location currentLocation) {
         int speed = animal.getSpeed();
         int countOfSteps = Randomizer.random(speed);
-        Location destination = findDestinationLocation(countOfSteps, currentLocation, animal);
+        Location destination = findDestinationLocation(countOfSteps, currentLocation);
 
         if (moveTo(animal, destination)) {
             remove(animal, currentLocation);

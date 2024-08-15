@@ -55,6 +55,7 @@ public class MapCreatorService {
                 for (EOrganisms organismType : EOrganisms.values()) {
                     OrganismDTO prototype = OrganismFactory.createOrganism(organismType);
                     int maxCount = prototype.getMaxPopulation();
+                    System.out.println(maxCount);
                     int count = Randomizer.random(0, maxCount);
 
                     for (int i = 0; i < count; i++) {

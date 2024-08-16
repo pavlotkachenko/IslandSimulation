@@ -1,7 +1,6 @@
 package org.island.exceptions;
 
-public class OrganismNotFound extends RuntimeException {
-
+public class OrganismNotFound extends RuntimeException{
     public OrganismNotFound(){}
 
     public OrganismNotFound(String message){

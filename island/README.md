@@ -53,7 +53,7 @@ Optional task components:
 - Introduce other factors influencing the simulation:
     - More animal species
     - Different plant species
-    - Custom behavior for animal groups (e.g., wolves hunting and moving in packs)
+    - Custom behavior for animal EOrganisms (e.g., wolves hunting and moving in packs)
     - Terrain features, including rivers that restrict certain animal movements
 
 About parameters (if you choose to implement):
